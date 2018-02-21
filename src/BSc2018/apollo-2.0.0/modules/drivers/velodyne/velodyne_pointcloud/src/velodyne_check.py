@@ -43,7 +43,7 @@ def callback(pointcloud):
 
 def listener():
     node_name = 'velodyne_check'
-    topic = '/apollo/sensor/velodyne64/compensator/PointCloud2'
+    topic = '/apollo/sensor/velodyne16/compensator/PointCloud2'
     rospy.init_node(node_name)
     rospy.Subscriber(topic, PointCloud2, callback)
     rospy.spin()
