@@ -111,7 +111,7 @@ VelodyneDriver* VelodyneDriverFactory::create_driver(
   Config config;
   // use private node handle to get parameters
   private_nh.param("frame_id", config.frame_id, std::string("velodyne"));
-  private_nh.param("model", config.model, std::string("64E"));
+  private_nh.param("model", config.model, std::string("VLP16"));
   private_nh.param("topic", config.topic, std::string("velodyne_packets"));
   private_nh.param("firing_data_port", config.firing_data_port,
                    FIRING_DATA_PORT);
