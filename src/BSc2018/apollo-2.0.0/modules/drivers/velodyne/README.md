@@ -45,7 +45,7 @@ When calibration_online is true, intrinsic parameter file is not needed, otherwi
 
 **intrinsic parameter file**
 ```xml
-<arg name="velodyne16_calibration_file" default="$(find velodyne_pointcloud)/params/64E_S3_calibration_example.yaml"/>
+<arg name="velodyne16_calibration_file" default="$(find velodyne_pointcloud)/params/VLP16_calibration.yaml"/>
 ```
 
 **extrinsic parameter file**

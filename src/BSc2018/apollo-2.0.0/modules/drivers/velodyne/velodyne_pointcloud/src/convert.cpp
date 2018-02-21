@@ -32,7 +32,7 @@ void Convert::init(ros::NodeHandle& node, ros::NodeHandle& private_nh) {
   private_nh.param("min_range", config_.min_range, 0.9);
   private_nh.param("view_direction", config_.view_direction, 0.0);
   private_nh.param("view_width", config_.view_width, 2.0 * M_PI);
-  private_nh.param("model", config_.model, std::string("64E_S2"));
+  private_nh.param("model", config_.model, std::string("VLP16"));
   private_nh.param("calibration_online", config_.calibration_online, true);
   private_nh.param("calibration", config_.calibration_file, std::string(""));
   private_nh.param("organized", config_.organized, false);

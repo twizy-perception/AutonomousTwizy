@@ -1,5 +1,5 @@
 <launch>
-  <arg name="model" default="64E_S3D_STRONGEST" />
+  <arg name="model" default="VLP16" />
   <arg name="calibration_online" default="true" />
   <!--If 'calibration_online' is true, 'calibration' will not use -->
   <arg name="calibration" default="" />

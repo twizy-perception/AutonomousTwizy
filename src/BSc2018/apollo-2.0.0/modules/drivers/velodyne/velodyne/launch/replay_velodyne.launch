@@ -2,11 +2,11 @@
     <arg name="velodyne16_calibration_online" default="true" />
     <!--If 'velodyne16_calibration_online' is true, 'velodyne16_calibration_file' will not use  -->
     <arg name="param_folder" default="$(find velodyne_pointcloud)/params"/>
-    <arg name="velodyne16_calibration_file" default="$(arg param_folder)/64E_S3_calibration_example.yaml"/>
+    <arg name="velodyne16_calibration_file" default="$(arg param_folder)/VLP16_calibration.yaml"/>
     <arg name="extrinsics_velodyne16" default="$(arg param_folder)/velodyne16_novatel_extrinsics_example.yaml"/>
     <arg name="organized" default="false"/>
     <arg name="min_range" default="0.9" />
-    <arg name="max_range_64" default="70.0" />
+    <arg name="max_range_16" default="70.0" />
     <arg name="rpm" default="600"/>
     <arg name="tf_query_timeout" default="0.1"/>
     <arg name="velodyne16_frame_id" default="velodyne16"/>
@@ -23,12 +23,12 @@
     <!--  HDL64E -->
   <!-- start cloud nodelet using test calibration file -->
   <include file="$(find velodyne_pointcloud)/launch/convert_nodelet.launch">
-    <arg name="model" default="64E_S3D_STRONGEST" />
+    <arg name="model" default="VLP16" />
     <arg name="calibration_online" value="$(arg velodyne16_calibration_online)" />
     <arg name="calibration" default="$(arg velodyne16_calibration_file)" />
     <arg name="organized" default="$(arg organized)"/>
     <arg name="min_range" default="$(arg min_range)" />
-    <arg name="max_range" default="$(arg max_range_64)" />
+    <arg name="max_range" default="$(arg max_range_16)" />
     <arg name="topic_pointcloud" default="/apollo/sensor/velodyne16/PointCloud2"/>
     <arg name="topic_packets" default="/apollo/sensor/velodyne16/VelodyneScanUnified"/>
     <arg name="node_name" value="sensor_velodyne16_convert"/>

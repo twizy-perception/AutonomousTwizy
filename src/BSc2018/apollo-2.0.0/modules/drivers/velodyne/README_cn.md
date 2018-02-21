@@ -48,7 +48,7 @@ bash apollo.sh build_velodyne
 当该参数设置为`true`的时候，不需要提供内参文件；设置为`false`时，必须提供内参文件
 **内参文件**
 ```xml
-<arg name="velodyne16_calibration_file" default="$(find velodyne_pointcloud)/params/64E_S3_calibration_example.yaml"/>
+<arg name="velodyne16_calibration_file" default="$(find velodyne_pointcloud)/params/VLP16_calibration.yaml"/>
 ```
 
 **外参文件**

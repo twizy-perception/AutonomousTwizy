@@ -1,7 +1,7 @@
 <launch>
     <arg name="velodyne16_calibration_online" default="true" />
     <!--If 'velodyne16_calibration_online' is true, 'velodyne16_calibration_file' will not use  -->
-    <arg name="velodyne16_calibration_file" default="$(find velodyne_pointcloud)/params/64E_S3_calibration_example.yaml"/>
+    <arg name="velodyne16_calibration_file" default="$(find velodyne_pointcloud)/params/VLP16_calibration.yaml"/>
     <arg name="extrinsics_velodyne16" default="$(find velodyne_pointcloud)/params/velodyne16_novatel_extrinsics_example.yaml"/>
     <arg name="velodyne16_frame_id" default="velodyne16"/>
     <arg name="organized" default="false"/>
