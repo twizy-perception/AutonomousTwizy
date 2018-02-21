@@ -29,7 +29,7 @@ namespace apollo {
 namespace perception {
 
 ProbabilisticFusion::ProbabilisticFusion()
-    : publish_sensor_id_("velodyne_64"),
+    : publish_sensor_id_("velodyne_16"),
       started_(false),
       matcher_(nullptr),
       sensor_manager_(nullptr),
@@ -142,7 +142,7 @@ bool ProbabilisticFusion::Init() {
   if (!model_config->GetValue("publish_sensor", &publish_sensor_id_)) {
     AERROR << "publish_sensor not found";
   }
-  if (publish_sensor_id_ != "velodyne_64" && publish_sensor_id_ != "radar") {
+  if (publish_sensor_id_ != "velodyne_16" && publish_sensor_id_ != "radar") {
     AERROR << "Invalid publish_sensor value: " << publish_sensor_id_;
   }
   AINFO << "publish_sensor: " << publish_sensor_id_;

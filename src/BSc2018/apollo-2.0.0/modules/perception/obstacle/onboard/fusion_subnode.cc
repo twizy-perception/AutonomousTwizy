@@ -179,7 +179,7 @@ bool FusionSubnode::BuildSensorObjs(
     // Make sure timestamp and type are filled.
     sensor_objects->timestamp = event.timestamp;
     if (event.event_id == lidar_event_id_) {
-      sensor_objects->sensor_type = VELODYNE_64;
+      sensor_objects->sensor_type = VELODYNE_16;
     } else if (event.event_id == radar_event_id_) {
       sensor_objects->sensor_type = RADAR;
     } else {

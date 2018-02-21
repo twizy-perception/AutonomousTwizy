@@ -74,8 +74,8 @@ TEST(SubnodeTest, test_init) {
   AINFO << my_subnode.DebugString();
 
   EXPECT_EQ(my_subnode.id(), 1);
-  EXPECT_EQ(my_subnode.name(), "Lidar64InputNode");
-  EXPECT_EQ(my_subnode.reserve(), "topic_64");
+  EXPECT_EQ(my_subnode.name(), "Lidar16InputNode");
+  EXPECT_EQ(my_subnode.reserve(), "topic_16");
 }
 
 }  // namespace perception

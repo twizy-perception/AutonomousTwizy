@@ -35,7 +35,7 @@ TEST(ProbabilisticFusionTest, probabilistic_fusion_test) {
   std::vector<SensorObjects> sensor_objects;
   std::vector<ObjectPtr> fused_objects;
   sensor_objects.resize(1);
-  sensor_objects[0].sensor_type = VELODYNE_64;
+  sensor_objects[0].sensor_type = VELODYNE_16;
   sensor_objects[0].seq_num = 0;
   sensor_objects[0].timestamp = 0.0;
   sensor_objects[0].sensor2world_pose = Eigen::Matrix4d::Identity();

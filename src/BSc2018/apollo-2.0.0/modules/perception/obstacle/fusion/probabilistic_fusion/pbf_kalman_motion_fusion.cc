@@ -110,7 +110,7 @@ void PbfKalmanMotionFusion::UpdateWithObject(
   p_matrix_.block<2, 2>(0, 2) = Eigen::Matrix2d::Zero();
 
   Eigen::Vector3d measured_acceleration = Eigen::Vector3d::Zero();
-  if (new_object->sensor_type == VELODYNE_64) {
+  if (new_object->sensor_type == VELODYNE_16) {
     belief_anchor_point_ = new_object->object->center;
     belief_velocity_ = new_object->object->velocity;
     if (GetLidarHistoryLength() >= 3) {

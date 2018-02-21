@@ -42,11 +42,11 @@ PbfSensorManager::~PbfSensorManager() {
 bool PbfSensorManager::Init() {
   sensors_.clear();
 
-  std::string sensor_id = GetSensorType(VELODYNE_64);
-  SensorType type = VELODYNE_64;
+  std::string sensor_id = GetSensorType(VELODYNE_16);
+  SensorType type = VELODYNE_16;
 
-  PbfSensor *velodyne_64 = new PbfSensor(type, sensor_id);
-  sensors_[sensor_id] = velodyne_64;
+  PbfSensor *velodyne_16 = new PbfSensor(type, sensor_id);
+  sensors_[sensor_id] = velodyne_16;
 
   sensor_id = GetSensorType(RADAR);
   type = RADAR;
@@ -54,7 +54,7 @@ bool PbfSensorManager::Init() {
   if (sensors_.find(sensor_id) == sensors_.end()) {
     sensors_[sensor_id] = radar;
   } else {
-    AERROR << "The velodyne 64 and radar sensor ids are conflict.";
+    AERROR << "The velodyne 16 and radar sensor ids are conflict.";
     return false;
   }
   return true;

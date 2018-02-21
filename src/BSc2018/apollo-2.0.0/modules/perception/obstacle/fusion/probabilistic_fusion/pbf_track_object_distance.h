@@ -38,11 +38,11 @@ class PbfTrackObjectDistance {
                 const TrackObjectDistanceOptions &options);
 
  protected:
-  float ComputeVelodyne64Velodyne64(const PbfSensorObjectPtr &fused_object,
+  float ComputeVelodyne16Velodyne16(const PbfSensorObjectPtr &fused_object,
                                     const PbfSensorObjectPtr &sensor_object,
                                     const Eigen::Vector3d &ref_pos,
                                     int range = 3);
-  float ComputeVelodyne64Radar(const PbfSensorObjectPtr &fused_object,
+  float ComputeVelodyne16Radar(const PbfSensorObjectPtr &fused_object,
                                const PbfSensorObjectPtr &sensor_object,
                                const Eigen::Vector3d &ref_pos, int range = 3);
   float ComputeRadarRadar(const PbfSensorObjectPtr &fused_object,

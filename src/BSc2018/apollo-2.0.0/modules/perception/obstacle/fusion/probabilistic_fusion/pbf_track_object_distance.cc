@@ -58,17 +58,17 @@ float PbfTrackObjectDistance::Compute(
   if (is_lidar(sensor_type)) {
     if (lidar_object != nullptr) {
       distance =
-          ComputeVelodyne64Velodyne64(fused_object, sensor_object, *ref_point);
+          ComputeVelodyne16Velodyne16(fused_object, sensor_object, *ref_point);
     } else if (radar_object != nullptr) {
       distance =
-          ComputeVelodyne64Radar(sensor_object, fused_object, *ref_point);
+          ComputeVelodyne16Radar(sensor_object, fused_object, *ref_point);
     } else {
       AWARN << "All of the objects are nullptr";
     }
   } else if (is_radar(sensor_type)) {
     if (lidar_object != nullptr) {
       distance =
-          ComputeVelodyne64Radar(fused_object, sensor_object, *ref_point);
+          ComputeVelodyne16Radar(fused_object, sensor_object, *ref_point);
     } else if (radar_object != nullptr) {
       distance = std::numeric_limits<float>::max();
       //    distance = compute_radar_radar(fused_object, sensor_object,
@@ -82,7 +82,7 @@ float PbfTrackObjectDistance::Compute(
   return distance;
 }
 
-float PbfTrackObjectDistance::ComputeVelodyne64Velodyne64(
+float PbfTrackObjectDistance::ComputeVelodyne16Velodyne16(
     const PbfSensorObjectPtr &fused_object,
     const PbfSensorObjectPtr &sensor_object, const Eigen::Vector3d &ref_pos,
     int range) {
@@ -92,13 +92,13 @@ float PbfTrackObjectDistance::ComputeVelodyne64Velodyne64(
   return distance;
 }
 
-float PbfTrackObjectDistance::ComputeVelodyne64Radar(
+float PbfTrackObjectDistance::ComputeVelodyne16Radar(
     const PbfSensorObjectPtr &fused_object,
     const PbfSensorObjectPtr &sensor_object, const Eigen::Vector3d &ref_pos,
     int range) {
   float distance =
       ComputeDistance3D(fused_object, sensor_object, ref_pos, range);
-  ADEBUG << "compute_velodyne64_radar distance " << distance;
+  ADEBUG << "compute_velodyne16_radar distance " << distance;
   return distance;
 }
 
