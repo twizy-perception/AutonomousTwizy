@@ -4,12 +4,12 @@
   The goal of multi-sensor localization is to provide a robust method which can achieve high localization accuracy and resilience in challenging scenes, such as urban downtown, highways, and tunnels. It adaptively uses information from complementary sensors such as GNSS, LiDAR and IMU. If you want to know more details, please refer to our paper [Robust and Precise Vehicle Localization based on Multi-sensor Fusion in Diverse City Scenes] (https://arxiv.org/abs/1711.05805).
 
 ## Input
-  * Point cloud data from LiDAR sensor (ROS topic `/apollo/sensor/velodyne64/compensator/PointCloud2`)
+  * Point cloud data from LiDAR sensor (ROS topic `/apollo/sensor/velodyne16/compensator/PointCloud2`)
   * Gnss observation and ephemeris data from Gnss sensor (ROS topic `/apollo/sensor/gnss/rtk_obs` and `/apollo/sensor/gnss/rtk_eph`)
   * Gnss best pose from Gnss sensor (ROS topic is `/apollo/sensor/gnss/best_pose`)
   * Imu data from IMU sensor (ROS topic `/apollo/sensor/gnss/imu`)
   * Localization map (FLAGS_map_dir + "/" + FLAGS_local_map_name)
-  * Parameter config files (velodyne64_novatel_extrinsics_example.yaml, velodyne64_height.yaml, and ant_imu_leverarm.yaml, located in `modules/localization/msf/params/`)
+  * Parameter config files (velodyne16_novatel_extrinsics_example.yaml, velodyne16_height.yaml, and ant_imu_leverarm.yaml, located in `modules/localization/msf/params/`)
 
 ## Output
   * Localization result defined by Protobuf message `LocalizationEstimate`, which can be found in file `localization/proto/localization.proto`. (ROS topic `/apollo/localization/pose`)

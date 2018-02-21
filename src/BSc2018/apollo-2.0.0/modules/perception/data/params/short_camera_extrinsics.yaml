@@ -12,6 +12,6 @@ header:
   stamp:
     secs: 0
     nsecs: 0
-  frame_id: velodyne64
+  frame_id: velodyne16
   seq: 0
 child_frame_id: short_camera

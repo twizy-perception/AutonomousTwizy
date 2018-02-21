@@ -88,7 +88,7 @@ float PbfTrackObjectDistance::ComputeVelodyne64Velodyne64(
     int range) {
   float distance =
       ComputeDistance3D(fused_object, sensor_object, ref_pos, range);
-  ADEBUG << "compute_velodyne64_velodyne64 distance: " << distance;
+  ADEBUG << "compute_velodyne16_velodyne16 distance: " << distance;
   return distance;
 }
 

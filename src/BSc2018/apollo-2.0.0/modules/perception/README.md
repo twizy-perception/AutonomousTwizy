@@ -4,7 +4,7 @@
 The goal of perception module is to provide the ability of perceiving obstacles and traffic lights. The obstacle submodule detects, segments, classifies and tracks obstacles in the ROI defined by high-resolution (HD) map. In addition, it predicts the obstacles’ motion and pose information (e.g., heading, velocity, etc). It consists of two main components, including obstacle perception given input 3D point cloud data from LiDAR sensor, and obstacle fusion based on LiDAR and RADAR obstacles. Please see details in [the document of 3D obstacles perception](https://github.com/ApolloAuto/apollo/blob/master/docs/specs/3d_obstacle_perception.md). The traffic light submodule detects traffic lights and recognizes their status in the images. Please see details in [the document of traffic light perception](https://github.com/ApolloAuto/apollo/blob/master/docs/specs/traffic_light.md).
 
 ## Input
-  * Point cloud data (ROS topic _/apollo/sensor/velodyne64/compensator/PointCloud2_)
+  * Point cloud data (ROS topic _/apollo/sensor/velodyne16/compensator/PointCloud2_)
   * RADAR data (ROS topic _/apollo/sensor/conti_radar_)
   * Image data (ROS topic _/apollo/sensor/camera/traffic/image_long_ & _/apollo/sensor/camera/traffic/image_short_)
   * Coordinate frame transformation information over time (ROS topic _/tf_)
@@ -25,7 +25,7 @@ The goal of perception module is to provide the ability of perceiving obstacles 
 5. In addition we provide some demo data for developers. Please download the demo data from our [Open Data Platform](https://console.bce.baidu.com/apollo/task/download).
 
 ## Function enable/disable
-The perception framework is designed as a directed acyclic graph (DAG). A typical DAG configuration for perception module is shown as below. There are three components in DAG configuration, including sub-nodes, edges and shared data. Each function is implemented as a sub-node in DAG. The sub-nodes that share data have an edge from producer to customer. 
+The perception framework is designed as a directed acyclic graph (DAG). A typical DAG configuration for perception module is shown as below. There are three components in DAG configuration, including sub-nodes, edges and shared data. Each function is implemented as a sub-node in DAG. The sub-nodes that share data have an edge from producer to customer.
 
 Default obstacle perception consists of "LidarProcessSubnode", "RadarProcessSubnode" and "FusionSubnode", as shown in *subnode_config* part. The "LidarProcessSubnode" and "RadarProcessSubnode" receive sensor data and output obstacle data independently, i.e. the "LidarObjectData" and "RadarObjectData" in *data_config* part. The "FusionSubnode" subscribes both the obstacle data and publishes the final results. Traffic light perception is composed of "TLPreprocessorSubnode" and "TLProcSubnode". The edge and data configuration define the links. Each function could be disabled by removing the corresponding sub-node, edge and shared data configuration. Just make sure all the input and output configurations are correct.
 
@@ -36,7 +36,7 @@ subnode_config {
     subnodes {
         id: 1
         name: "LidarProcessSubnode"
-        reserve: "device_id:velodyne64;"
+        reserve: "device_id:velodyne16;"
         type: SUBNODE_IN
     }
 
