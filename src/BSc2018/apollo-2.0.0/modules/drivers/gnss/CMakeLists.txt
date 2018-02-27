@@ -71,6 +71,8 @@ target_link_libraries(rtcm_parser_nodelet rtcm utils ${catkin_LIBRARIES} ${PROTO
 add_library(tf_broadcaster_nodelet src/tf/tf_broadcaster_nodelet.cpp src/tf/tf_broadcaster.cpp)
 target_link_libraries(tf_broadcaster_nodelet utils ${catkin_LIBRARIES} ${PROTOBUF_LIBRARIES})
 
+add_subdirectory(libsbp)
+
 add_executable(parser_cli tests/parser_cli.cpp src/impl/parser/novatel/novatel_parser.cpp)
 target_link_libraries(parser_cli rtcm utils ${catkin_LIBRARIES} ${PROTOBUF_LIBRARIES})
 
