@@ -1,42 +1,46 @@
-/******************************************************************************
- * Copyright 2017 The Apollo Authors. All Rights Reserved.
+/* -*- mode: C++ -*-
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Copyright (C) 2011, 2012 Austin Robot Technology
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *  License: Modified BSD Software License Agreement
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
+ *  $Id: data_base.h 1554 2011-06-14 22:11:17Z jack.oquin $
+ */
 
-#ifndef MODULES_DRIVERS_VELODYNE_VELODYNE_POINTCLOUD_POINT_TYPES_H_
-#define MODULES_DRIVERS_VELODYNE_VELODYNE_POINTCLOUD_POINT_TYPES_H_
+/** \file
+ *
+ *  Point Cloud Library point structures for Velodyne data.
+ *
+ *  @author Jesse Vera
+ *  @author Jack O'Quin
+ *  @author Piyush Khandelwal
+ */
+
+#ifndef __VELODYNE_POINTCLOUD_POINT_TYPES_H
+#define __VELODYNE_POINTCLOUD_POINT_TYPES_H
 
 #include <pcl/point_types.h>
 
-namespace apollo {
-namespace drivers {
-namespace velodyne {
+namespace velodyne_pointcloud
+{
+  /** Euclidean Velodyne coordinate, including intensity and ring number. */
+  struct PointXYZIR
+  {
+    PCL_ADD_POINT4D;                    // quad-word XYZ
+    float    intensity;                 ///< laser intensity reading
+    uint16_t ring;                      ///< laser ring number
+    EIGEN_MAKE_ALIGNED_OPERATOR_NEW     // ensure proper alignment
+  } EIGEN_ALIGN16;
 
-struct PointXYZIT {
-  PCL_ADD_POINT4D
-  uint8_t intensity;
-  double timestamp;
-  EIGEN_MAKE_ALIGNED_OPERATOR_NEW  // make sure our new allocators are aligned
-} EIGEN_ALIGN16;
-// enforce SSE padding for correct memory alignment
+}; // namespace velodyne_pointcloud
 
-}  // namespace velodyne
-}  // namespace drivers
-}  // namespace apollo
 
-POINT_CLOUD_REGISTER_POINT_STRUCT(apollo::drivers::velodyne::PointXYZIT,
-                                  (float, x, x)(float, y, y)(float, z, z)(
-                                      uint8_t, intensity,
-                                      intensity)(double, timestamp, timestamp))
-#endif  // MODULES_DRIVERS_VELODYNE_VELODYNE_POINTCLOUD_POINT_TYPES_H_
+POINT_CLOUD_REGISTER_POINT_STRUCT(velodyne_pointcloud::PointXYZIR,
+                                  (float, x, x)
+                                  (float, y, y)
+                                  (float, z, z)
+                                  (float, intensity, intensity)
+                                  (uint16_t, ring, ring))
+
+#endif // __VELODYNE_POINTCLOUD_POINT_TYPES_H
+

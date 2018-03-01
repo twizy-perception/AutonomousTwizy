@@ -1,74 +1,126 @@
-/******************************************************************************
- * Copyright 2017 The Apollo Authors. All Rights Reserved.
+/* -*- mode: C++ -*-
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  Copyright (C) 2007 Austin Robot Technology, Yaxin Liu, Patrick Beeson
+ *  Copyright (C) 2009, 2010 Austin Robot Technology, Jack O'Quin
+ *  Copyright (C) 2015, Jack O'Quin
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *  License: Modified BSD Software License Agreement
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
+ *  $Id$
+ */
 
-#ifndef MODULES_DRIVERS_VELODYNE_VELODYNE_DRIVER_INPUT_H_
-#define MODULES_DRIVERS_VELODYNE_VELODYNE_DRIVER_INPUT_H_
+/** @file
+ *
+ *  Velodyne 3D LIDAR data input classes
+ *
+ *    These classes provide raw Velodyne LIDAR input packets from
+ *    either a live socket interface or a previously-saved PCAP dump
+ *    file.
+ *
+ *  Classes:
+ *
+ *     velodyne::Input -- base class for accessing the data
+ *                      independently of its source
+ *
+ *     velodyne::InputSocket -- derived class reads live data from the
+ *                      device via a UDP socket
+ *
+ *     velodyne::InputPCAP -- derived class provides a similar interface
+ *                      from a PCAP dump file
+ */
+
+#ifndef __VELODYNE_INPUT_H
+#define __VELODYNE_INPUT_H
+
+#include <unistd.h>
+#include <stdio.h>
+#include <pcap.h>
+#include <netinet/in.h>
 
 #include <ros/ros.h>
-#include <stdio.h>
-#include <unistd.h>
+#include <velodyne_msgs/VelodynePacket.h>
 
-#include "velodyne_msgs/VelodyneScanUnified.h"
+namespace velodyne_driver
+{
+  static uint16_t DATA_PORT_NUMBER = 2368;     // default data port
+  static uint16_t POSITION_PORT_NUMBER = 8308; // default position port
 
-namespace apollo {
-namespace drivers {
-namespace velodyne {
+  /** @brief Velodyne input base class */
+  class Input
+  {
+  public:
+    Input(ros::NodeHandle private_nh, uint16_t port);
+    virtual ~Input() {}
 
-static const size_t FIRING_DATA_PACKET_SIZE = 1206;
-static const size_t POSITIONING_DATA_PACKET_SIZE = 512;
-static const size_t ETHERNET_HEADER_SIZE = 42;
-static const int SOCKET_TIMEOUT = -2;
-static const int RECIEVE_FAIL = -3;
+    /** @brief Read one Velodyne packet.
+     *
+     * @param pkt points to VelodynePacket message
+     *
+     * @returns 0 if successful,
+     *          -1 if end of file
+     *          > 0 if incomplete packet (is this possible?)
+     */
+    virtual int getPacket(velodyne_msgs::VelodynePacket *pkt,
+                          const double time_offset) = 0;
 
-struct NMEATime {
-  uint16_t year;
-  uint16_t mon;
-  uint16_t day;
-  uint16_t hour;
-  uint16_t min;
-  uint16_t sec;
-};
-typedef boost::shared_ptr<NMEATime> NMEATimePtr;
+  protected:
+    ros::NodeHandle private_nh_;
+    uint16_t port_;
+    std::string devip_str_;
+  };
 
-/** @brief Pure virtual Velodyne input base class */
-class Input {
- public:
-  Input() {}
-  virtual ~Input() {}
+  /** @brief Live Velodyne input from socket. */
+  class InputSocket: public Input
+  {
+  public:
+    InputSocket(ros::NodeHandle private_nh,
+                uint16_t port = DATA_PORT_NUMBER);
+    virtual ~InputSocket();
 
-  /** @brief Read one Velodyne packet.
+    virtual int getPacket(velodyne_msgs::VelodynePacket *pkt, 
+                          const double time_offset);
+    void setDeviceIP( const std::string& ip );
+  private:
+
+  private:
+    int sockfd_;
+    in_addr devip_;
+  };
+
+
+  /** @brief Velodyne input from PCAP dump file.
    *
-   * @param pkt points to VelodynePacket message
-   *
-   * @returns 0 if successful,
-   *          -1 if end of file
-   *          > 0 if incomplete packet (is this possible?)
+   * Dump files can be grabbed by libpcap, Velodyne's DSR software,
+   * ethereal, wireshark, tcpdump, or the \ref vdump_command.
    */
-  virtual int get_firing_data_packet(velodyne_msgs::VelodynePacket* pkt) = 0;
-  virtual int get_positioning_data_packtet(const NMEATimePtr& nmea_time) = 0;
-  virtual void init() {}
-  virtual void init(int& port) {}
+  class InputPCAP: public Input
+  {
+  public:
+    InputPCAP(ros::NodeHandle private_nh,
+              uint16_t port = DATA_PORT_NUMBER,
+              double packet_rate = 0.0,
+              std::string filename="",
+              bool read_once=false,
+              bool read_fast=false,
+              double repeat_delay=0.0);
+    virtual ~InputPCAP();
 
- protected:
-  bool exract_nmea_time_from_packet(const NMEATimePtr& nmea_time,
-                                    const uint8_t* bytes);
-};
+    virtual int getPacket(velodyne_msgs::VelodynePacket *pkt, 
+                          const double time_offset);
+    void setDeviceIP( const std::string& ip );
 
-}  // namespace velodyne
-}  // namespace drivers
-}  // namespace apollo
+  private:
+    ros::Rate packet_rate_;
+    std::string filename_;
+    pcap_t *pcap_;
+    bpf_program pcap_packet_filter_;
+    char errbuf_[PCAP_ERRBUF_SIZE];
+    bool empty_;
+    bool read_once_;
+    bool read_fast_;
+    double repeat_delay_;
+  };
 
-#endif  // MODULES_DRIVERS_VELODYNE_VELODYNE_DRIVER_INPUT_H_
+} // velodyne_driver namespace
+
+#endif // __VELODYNE_INPUT_H
