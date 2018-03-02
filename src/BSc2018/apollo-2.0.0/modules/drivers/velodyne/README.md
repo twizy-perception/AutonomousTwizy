@@ -69,7 +69,7 @@ Default export directory: /apollo/data/pcd
 ```bash
 prefix=/apollo/modules/drivers/velodyne/velodyne/launch
 postfix=_offline # or "_online"
-roslaunch velodyne {prefix}/export_pcd{postfix}.launch
+roslaunch velodyne {prefix}/export_pcd{postfix}_16.launch #vlp16 can only use postfix=online
 ```
  
 ### velodyne Data Validation
